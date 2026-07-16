@@ -8,13 +8,7 @@ import remarkMath from 'remark-math'
 // Local integrations
 import rehypeAutolinkHeadings from './src/plugins/rehype-auto-link-headings.ts'
 // Shiki
-import {
-  addCollapse,
-  addCopyButton,
-  addLanguage,
-  addTitle,
-  updateStyle
-} from './src/plugins/shiki-custom-transformers.ts'
+import { addCopyButton, addLanguage, addTitle, updateStyle } from './src/plugins/shiki-custom-transformers.ts'
 import {
   transformerNotationDiff,
   transformerNotationHighlight,
@@ -110,9 +104,7 @@ export default defineConfig({
         // @ts-ignore this happens due to multiple versions of shiki types
         addLanguage(),
         // @ts-ignore this happens due to multiple versions of shiki types
-        addCopyButton(2000), // timeout in ms
-        // @ts-ignore this happens due to multiple versions of shiki types
-        addCollapse(15) // max lines that needs to collapse
+        addCopyButton(2000) // timeout in ms
       ]
     }
   },

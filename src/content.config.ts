@@ -9,10 +9,27 @@ function removeDupsAndLowerCase(array: string[]) {
   return Array.from(distinctItems)
 }
 
+function generateBlogId({ entry }: { entry: string }) {
+  const withoutExtension = entry.replace(/\.(md|mdx)$/i, '')
+  const segments = withoutExtension.split('/')
+  const filename = segments.at(-1)
+  const parentDirectory = segments.at(-2)
+
+  if (segments.length > 1 && filename === parentDirectory) {
+    return segments.slice(0, -1).join('/')
+  }
+
+  return withoutExtension
+}
+
 // Define blog collection
 const blog = defineCollection({
   // Load Markdown and MDX files in the `src/content/blog/` directory.
-  loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
+  loader: glob({
+    base: './src/content/blog',
+    pattern: '**/*.{md,mdx}',
+    generateId: generateBlogId
+  }),
   // Required
   schema: ({ image }) =>
     z.object({
