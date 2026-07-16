@@ -1,0 +1,161 @@
+---
+import { Image } from 'astro:assets'
+
+import { Quote } from 'astro-pure/advanced'
+import { PostPreview } from 'astro-pure/components/pages'
+import { getBlogCollection, sortMDByDate } from 'astro-pure/server'
+import { Button, Card, Icon, Label } from 'astro-pure/user'
+import PageLayout from '@/layouts/BaseLayout.astro'
+import Section from '@/components/home/Section.astro'
+import config from '@/site-config'
+
+const MAX_POSTS = 10
+const allPosts = await getBlogCollection()
+const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
+
+const imagePath = config.logo.src
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/*.{jpeg,jpg,png,gif,avif,webp}'
+)
+if (!images[imagePath])
+  throw new Error(
+    `"${imagePath}" does not exist in glob: "src/assets/*.{jpeg,jpg,png,gif,avif,webp}"`
+  )
+---
+
+<PageLayout meta={{ title: 'Home' }} highlightColor='#659EB9'>
+  <main class='flex w-full flex-col items-center'>
+    <section class='animate mb-10 flex flex-col items-center gap-y-7' id='content-header'>
+      <Image
+        src={images[imagePath]()}
+        alt={config.logo.alt || 'Profile'}
+        class='h-28 w-auto rounded-full border p-1'
+        loading='eager'
+        fetchpriority='high'
+      />
+
+      <div class='flex flex-col items-center gap-y-4'>
+        <h1 class='text-3xl font-medium'>{config.author}</h1>
+        <div class='flex flex-wrap justify-center gap-x-7 gap-y-3'>
+          <Label title='China / Beijing'>
+            <Icon name='location' class='size-5' slot='icon' />
+          </Label>
+          <Label
+            title='Github'
+            as='a'
+            href='https://github.com/phosrick'
+            target='_blank'
+          >
+            <Icon name='github' class='size-5' slot='icon' />
+          </Label>
+        </div>
+      </div>
+    </section>
+
+    <div id='content' class='animate flex flex-col gap-y-10 md:w-4/5 lg:w-5/6'>
+      <Section title='About'>
+        <p class='text-muted-foreground'>
+          你好，我是 Phosrick，一个半路出家、但热爱 Coding 的 Developer。
+        </p>
+        <p class='text-muted-foreground'>
+          我并非计算机科班出身，而是从其他领域"转行"而来——但正是这份"非典型"的背景，让我对编程、对 AI、对解决问题本身，多了一份执着与好奇。我相信：热爱是最好的老师，实践是最快的路径。
+        </p>
+        <p class='text-muted-foreground'>
+          目前，我的兴趣和研究方向主要集中在：
+        </p>
+        <ul class='text-muted-foreground list-disc pl-5'>
+          <li>Large Language Model (LLM)</li>
+          <li>Agent AI / 自主智能体系统</li>
+        </ul>
+        <Button title='More about me' class='w-fit self-end' href='/about' variant='ahead' />
+      </Section>
+      {
+        allPostsByDate.length > 0 && (
+          <Section title='Posts'>
+            <ul class='flex flex-col gap-y-1.5 sm:gap-y-2'>
+              {allPostsByDate.map((p) => (
+                <li class='flex flex-col gap-x-2 sm:flex-row'>
+                  <PostPreview post={p} />
+                </li>
+              ))}
+            </ul>
+            <Button title='More posts' class='w-fit self-end' href='/blog' variant='ahead' />
+          </Section>
+        )
+      }
+
+      {
+        /* <Section title='Experience'>
+      <Card
+        heading='Lorem Ipsum'
+        subheading='Sit amet consectetur'
+        date='Dec 2022 - Nov 2023'
+        imagePath='/src/assets/about-astro.png'
+        altText='Lorem, ipsum dolor sit'
+        imageClass='h-12 w-auto md:-start-16'
+      >
+        <ul class='ms-4 list-disc text-muted-foreground'>
+          <li>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
+            molestiae laboriosam pariatur!
+
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
+          </li>
+        </ul>
+      </Card>
+      <Card
+        heading='Lorem Ipsum'
+        subheading='Sit amet consectetur'
+        date='Dec 2022 - Nov 2023'
+        imagePath='/src/assets/about-astro.png'
+        altText='Lorem, ipsum dolor sit'
+        imageClass='h-12 w-auto md:-start-16'
+      />
+    </Section> */
+      }
+      <Section title='Certifications'>
+        <Card
+          heading='Professional Cloud Architect'
+          subheading='Google Cloud Certified'
+          date='March 8, 2026'
+        />
+      </Section>
+
+      <Section title='Skills'>
+        <div class='flex flex-col gap-y-4'>
+          <div class='flex flex-col gap-1 md:flex-row md:gap-x-5'>
+            <h3 class='w-full shrink-0 font-medium md:w-18'>语言</h3>
+            <p class='text-muted-foreground'>
+              熟练使用 Java、Python，具备跨语言开发能力。
+            </p>
+          </div>
+          <div class='flex flex-col gap-1 md:flex-row md:gap-x-5'>
+            <h3 class='w-full shrink-0 font-medium md:w-18'>数据库</h3>
+            <p class='text-muted-foreground'>
+              熟练使用 MySQL、MongoDB、Redis，包括索引优化、分库分表、缓存击穿解决等，有线上相关优化经验。
+            </p>
+          </div>
+          <div class='flex flex-col gap-1 md:flex-row md:gap-x-5'>
+            <h3 class='w-full shrink-0 font-medium md:w-18'>分布式</h3>
+            <p class='text-muted-foreground'>
+              熟悉分布式系统设计与应用，包括服务发现、负载均衡、熔断降级等，曾主导 SpringCloud 架构设计。
+            </p>
+          </div>
+          <div class='flex flex-col gap-1 md:flex-row md:gap-x-5'>
+            <h3 class='w-full shrink-0 font-medium md:w-18'>中间件</h3>
+            <p class='text-muted-foreground'>
+              熟练使用 Kafka、RabbitMQ、Zookeeper、Nginx 等中间件，具备故障排查和性能优化能力。
+            </p>
+          </div>
+          <div class='flex flex-col gap-1 md:flex-row md:gap-x-5'>
+            <h3 class='w-full shrink-0 font-medium md:w-18'>AI</h3>
+            <p class='text-muted-foreground'>
+              大语言模型（LLM）应用集成、RAG 架构、多模态数据分析。
+            </p>
+          </div>
+        </div>
+      </Section>
+    </div>
+    <Quote class='mt-12' />
+  </main>
+</PageLayout>
