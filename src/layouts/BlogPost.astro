@@ -58,7 +58,9 @@ const primaryColor = data.heroImage?.color ?? 'hsl(var(--primary) / var(--un-tex
     </Fragment>
   </Hero>
 
-  <slot />
+  <div class='blog-prose'>
+    <slot />
+  </div>
 
   <Fragment slot='bottom'>
     {/* Copyright */}

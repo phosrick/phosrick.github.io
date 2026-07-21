@@ -31,6 +31,76 @@
   animation-delay: 150ms;
 }
 
+/* Blog articles use a denser reading rhythm than the documentation pages. */
+.blog-prose {
+  & :where(h1) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.625em;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  & :where(h2) {
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.375em;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  & :where(h3) {
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.125em;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  & :where(h4, h5, h6) {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.45;
+  }
+
+  & :where(p) {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+  }
+
+  & :where(table) {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  & :where(p:has(+ table)) {
+    margin-bottom: 0.5rem;
+  }
+
+  & :where(table + p) {
+    margin-top: 0.5rem;
+  }
+
+  & :where(td, th) {
+    padding: 0.5em 0.625em;
+  }
+
+  & :where(ol, ul) {
+    margin-top: 0.875em;
+    margin-bottom: 0.875em;
+  }
+
+  & :where(li) {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+  }
+
+  & :where(blockquote, pre, img, picture, video) {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+  }
+}
+
 /* [Katex] */
 span.katex-display {
   overflow-y: scroll;
