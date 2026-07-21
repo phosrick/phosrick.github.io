@@ -1,7 +1,6 @@
 ---
 import { getBlogCollection, getUniqueTagsWithCount } from 'astro-pure/server'
 import { Button } from 'astro-pure/user'
-import { cn } from 'astro-pure/utils'
 import PageLayout from '@/layouts/BaseLayout.astro'
 
 const allPosts = await getBlogCollection()
@@ -23,19 +22,12 @@ const meta = {
     <div id='content' class='animate'>
       {
         allTags.length > 0 ? (
-          <ul class='flex flex-wrap gap-4'>
+          <ul class='flex flex-wrap gap-3'>
             {allTags.map(([tag, val]) => (
               <li>
-                <Button
-                  href={`/tags/${tag}`}
-                  variant='pill'
-                  class={cn(
-                    'items-start gap-x-1',
-                    val > 2 ? 'rounded-xl px-3 py-1 text-xl' : val > 1 && 'text-lg'
-                  )}
-                >
+                <Button href={`/tags/${tag}`} variant='pill' class='gap-x-1'>
                   {tag}
-                  <span class={val > 2 ? 'text-base' : 'text-xs'}>{val}</span>
+                  <span class='text-xs'>{val}</span>
                 </Button>
               </li>
             ))}
