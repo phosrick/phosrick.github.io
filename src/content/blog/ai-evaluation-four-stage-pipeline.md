@@ -8,6 +8,7 @@ tags:
   - Workflow
   - 系统架构
   - LLM
+category: 圆桌讨论·AI能力评估
 ---
 
 ## 一个 Two-stage 的脚本，我为什么要分四段

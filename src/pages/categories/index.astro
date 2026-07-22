@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { getBlogCollection } from 'astro-pure/server'
+import { Button, Icon } from 'astro-pure/user'
+import PageLayout from '@/layouts/BaseLayout.astro'
+
+const allPosts = (await getBlogCollection('blog')) as CollectionEntry<'blog'>[]
+const categories = allPosts.map((p) => p.data.category).filter((c): c is string => !!c)
+const uniqueCategories = Array.from(new Set(categories)).map((cat) => [
+  cat,
+  categories.filter((c) => c === cat).length
+] as [string, number])
+
+const meta = {
+  description: '按系列 / 项目归类的全部博文',
+  title: 'Categories'
+}
+---
+
+<PageLayout {meta}>
+  <Button title='Back' href='/blog' variant='back' />
+  <main class='mt-6 lg:mt-10'>
+    <div id='content-header' class='animate'>
+      <h1 class='mb-6 flex items-center gap-2 text-3xl font-medium'>
+        <Icon name='list' class='size-7' />
+        Categories
+      </h1>
+    </div>
+
+    <div id='content' class='animate'>
+      {
+        uniqueCategories.length > 0 ? (
+          <ul class='flex flex-wrap gap-3'>
+            {uniqueCategories.map(([cat, val]) => (
+              <li>
+                <Button href={`/categories/${cat}`} variant='pill' class='gap-x-1'>
+                  {cat}
+                  <span class='text-xs'>{val}</span>
+                </Button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No categories yet.</p>
+        )
+      }
+    </div>
+  </main>
+</PageLayout>

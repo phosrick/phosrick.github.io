@@ -5,6 +5,7 @@ publishDate: '2026-07-19 10:48:02'
 tags:
   - RAG
   - LLM
+category: 圆桌讨论·AI能力评估
 ---
 
 ## 先从圆桌讨论的论题开始

@@ -51,6 +51,9 @@ const blog = defineCollection({
         })
         .optional(),
       tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
+      // Top-level grouping (e.g. a project / learning series). Distinct from `tags`,
+      // which stay topic-level (AI Agent, Python, RAG, ...).
+      category: z.string().optional(),
       language: z.string().optional(),
       draft: z.boolean().default(false),
       // Special fields
