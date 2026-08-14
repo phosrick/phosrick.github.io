@@ -2,7 +2,9 @@ import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 // import vercel from '@astrojs/vercel'
 import AstroPureIntegration from 'astro-pure'
 import { defineConfig, fontProviders, svgoOptimizer } from 'astro/config'
+import { chromium } from 'playwright'
 import rehypeKatex from 'rehype-katex'
+import rehypeMermaid from 'rehype-mermaid'
 import remarkMath from 'remark-math'
 
 // Local integrations
@@ -67,9 +69,21 @@ export default defineConfig({
 
   // [Markdown]
   markdown: {
+    syntaxHighlight: {
+      type: 'shiki',
+      excludeLangs: ['mermaid']
+    },
     remarkPlugins: [remarkMath],
     rehypePlugins: [
       [rehypeKatex, {}],
+      [
+        rehypeMermaid,
+        {
+          strategy: 'img-svg',
+          dark: true,
+          launchOptions: { executablePath: chromium.executablePath() }
+        }
+      ],
       rehypeHeadingIds,
       [
         rehypeAutolinkHeadings,
